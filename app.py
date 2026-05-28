@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import pandas as pd
 import joblib
@@ -19,7 +18,6 @@ st.write("COPD combined heart failure risk prediction")
 
 # ======================
 # 输入变量
-# 必须与训练变量一致
 # ======================
 
 RF_1 = st.number_input("RF_1", 0.0, 100.0, 1.0)
@@ -36,7 +34,6 @@ CREA = st.number_input("CREA", 0.0, 2000.0, 80.0)
 
 # ======================
 # 构建输入数据
-# 列名必须一致
 # ======================
 
 input_df = pd.DataFrame({
@@ -49,22 +46,18 @@ input_df = pd.DataFrame({
 })
 
 # ======================
-# 预测按钮
+# 预测
 # ======================
 
 if st.button("Predict"):
 
-    # 预测概率
     pred_prob = model.predict_proba(input_df)[0,1]
 
-    # 显示概率
     st.subheader("Prediction Probability")
 
     st.write(f"HF Risk Probability: {pred_prob:.3f}")
 
-    # 风险判断
     if pred_prob > 0.5:
         st.error("High Risk")
     else:
         st.success("Low Risk")
-```
