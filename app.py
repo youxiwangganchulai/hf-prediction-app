@@ -1,3 +1,4 @@
+```python
 import streamlit as st
 import pandas as pd
 import joblib
@@ -6,4 +7,64 @@ import joblib
 # 加载模型
 # ======================
 
-model = joblib.load("
+model = joblib.load("heart_model.pkl")
+
+# ======================
+# 页面标题
+# ======================
+
+st.title("HF Prediction System")
+
+st.write("COPD combined heart failure risk prediction")
+
+# ======================
+# 输入变量
+# 必须与训练变量一致
+# ======================
+
+RF_1 = st.number_input("RF_1", 0.0, 100.0, 1.0)
+
+age = st.number_input("age", 0, 120, 60)
+
+SIICI = st.number_input("SIICI", 0.0, 100000.0, 500.0)
+
+TBIL = st.number_input("TBIL", 0.0, 500.0, 10.0)
+
+PH = st.number_input("PH", 6.0, 8.0, 7.4)
+
+CREA = st.number_input("CREA", 0.0, 2000.0, 80.0)
+
+# ======================
+# 构建输入数据
+# 列名必须一致
+# ======================
+
+input_df = pd.DataFrame({
+    "RF_1":[RF_1],
+    "age":[age],
+    "SIICI":[SIICI],
+    "TBIL":[TBIL],
+    "PH":[PH],
+    "CREA":[CREA]
+})
+
+# ======================
+# 预测按钮
+# ======================
+
+if st.button("Predict"):
+
+    # 预测概率
+    pred_prob = model.predict_proba(input_df)[0,1]
+
+    # 显示概率
+    st.subheader("Prediction Probability")
+
+    st.write(f"HF Risk Probability: {pred_prob:.3f}")
+
+    # 风险判断
+    if pred_prob > 0.5:
+        st.error("High Risk")
+    else:
+        st.success("Low Risk")
+```
