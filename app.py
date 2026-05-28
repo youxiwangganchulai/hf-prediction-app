@@ -1,6 +1,9 @@
-
 import streamlit as st
+import pandas as pd
+import joblib
 
-st.title("Heart Prediction System")
+# ======================
+# 加载模型
+# ======================
 
-st.write("Hello Streamlit")
+model = joblib.load("
