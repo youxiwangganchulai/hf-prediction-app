@@ -1,14 +1,13 @@
 import streamlit as st
 import pandas as pd
 import joblib
+from sklearn.preprocessing import StandardScaler
 
 # ======================
-# 加载模型和预处理
+# 加载模型
 # ======================
 
 model = joblib.load("heart_model.pkl")
-
-prep = joblib.load("prep.pkl")
 
 # ======================
 # 页面标题
@@ -24,7 +23,7 @@ st.write("COPD combined heart failure risk prediction")
 
 RF_1 = st.number_input("RF_1", 0.0, 100.0, 1.0)
 
-age = st.number_input("age", 0, 120, 60)
+age = st.number_input("age", 0.0, 120.0, 60.0)
 
 SIICI = st.number_input("SIICI", 0.0, 100000.0, 500.0)
 
@@ -48,18 +47,12 @@ input_df = pd.DataFrame({
 })
 
 # ======================
-# 数据预处理
-# ======================
-
-input_processed = prep.transform(input_df)
-
-# ======================
 # 预测
 # ======================
 
 if st.button("Predict"):
 
-    pred_prob = model.predict_proba(input_processed)[0,1]
+    pred_prob = model.predict_proba(input_df)[0,1]
 
     st.subheader("Prediction Probability")
 
