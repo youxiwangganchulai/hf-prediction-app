@@ -3,10 +3,12 @@ import pandas as pd
 import joblib
 
 # ======================
-# 加载模型
+# 加载模型和预处理
 # ======================
 
 model = joblib.load("heart_model.pkl")
+
+prep = joblib.load("prep.pkl")
 
 # ======================
 # 页面标题
@@ -46,12 +48,18 @@ input_df = pd.DataFrame({
 })
 
 # ======================
+# 数据预处理
+# ======================
+
+input_processed = prep.transform(input_df)
+
+# ======================
 # 预测
 # ======================
 
 if st.button("Predict"):
 
-    pred_prob = model.predict_proba(input_df)[0,1]
+    pred_prob = model.predict_proba(input_processed)[0,1]
 
     st.subheader("Prediction Probability")
 
