@@ -20,29 +20,30 @@ st.write("COPD combined heart failure risk prediction")
 # 输入变量
 # ======================
 
-RF_1 = st.number_input("RF_1", 0.0, 100.0, 1.0)
-
-age = st.number_input("age", 0.0, 120.0, 60.0)
+RF = st.number_input("RF", 0.0, 100.0, 1.0)
 
 SIICI = st.number_input("SIICI", 0.0, 100000.0, 500.0)
 
-TBIL = st.number_input("TBIL", 0.0, 500.0, 10.0)
-
-PH = st.number_input("PH", 6.0, 8.0, 7.4)
+age = st.number_input("age", 0.0, 120.0, 60.0)
 
 CREA = st.number_input("CREA", 0.0, 2000.0, 80.0)
 
+PH = st.number_input("PH", 6.0, 8.0, 7.4)
+
+TBIL = st.number_input("TBIL", 0.0, 500.0, 10.0)
+
 # ======================
 # 构建输入数据
+# 顺序必须完全一致
 # ======================
 
 input_df = pd.DataFrame({
-    "RF_1":[RF_1],
-    "age":[age],
+    "RF":[RF],
     "SIICI":[SIICI],
-    "TBIL":[TBIL],
+    "age":[age],
+    "CREA":[CREA],
     "PH":[PH],
-    "CREA":[CREA]
+    "TBIL":[TBIL]
 })
 
 # ======================
